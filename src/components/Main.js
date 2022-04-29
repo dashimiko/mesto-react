@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import {useState,useEffect} from 'react';
 import profileAddButton from '../images/small_add_button.svg';
 import {api} from '../utils/Api'
 import Card from './Card';
