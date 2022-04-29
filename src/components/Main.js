@@ -3,11 +3,12 @@ import profileAddButton from '../images/small_add_button.svg';
 import {api} from '../utils/Api'
 import Card from './Card';
 
-function Main({onEditProfile,onAddPlace,onEditAvatar,}){
+function Main({onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
 
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -17,16 +18,16 @@ function Main({onEditProfile,onAddPlace,onEditAvatar,}){
       setUserDescription(res.about);
       setUserAvatar(res.avatar);
 
-    const rendercards = elements.map((data) => {
+    const rendercard = elements.map((data) => {
       return {
-        place: data.name,
+        name: data.name,
         link: data.link,
         likes: data.likes,
-        id: data._id,
+        id: data._id
       };
     });
-    setCards(rendercards);
-  }).catch((err) => console.log(err))}, []);
+    setCards(rendercard);
+  }).catch((err) => console.log(err))},[]);
 
   return (
 
@@ -43,17 +44,15 @@ function Main({onEditProfile,onAddPlace,onEditAvatar,}){
           </div>
           <p className="profile__description">{userDescription}</p>
         </div>
-        <button className="profile__add-button" type="button" onClick={onAddPlace}><img src={profileAddButton} class="profile__vector" alt="кнопка добавления контента"></img></button>
+        <button className="profile__add-button" type="button" onClick={onAddPlace}><img src={profileAddButton} className="profile__vector" alt="кнопка добавления контента"></img></button>
       </section>
 
       <section className="elements">
-
       {cards.map((card) => {
-            return (
-              <Card key={card.id} card={card} />
-            );
-          })}
-
+        return (
+          <Card key={card.id} card={card} onCardClick={onCardClick}/>
+          );
+        })}
       </section>
 
     </main>
