@@ -1,33 +1,13 @@
-import {useState,useEffect} from 'react';
+import { useContext } from 'react';
 import profileAddButton from '../images/small_add_button.svg';
 import {api} from '../utils/Api'
 import Card from './Card';
 
-function Main({onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
 
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getInfo()
-    .then(([elements, res]) => {
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
-
-    const rendercard = elements.map((data) => {
-      return {
-        name: data.name,
-        link: data.link,
-        likes: data.likes,
-        id: data._id
-      };
-    });
-    setCards(rendercard);
-  }).catch((err) => console.log(err))},[]);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
 
@@ -35,14 +15,14 @@ function Main({onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
 
       <section className="profile">
         <button className="profile__avatar-container" onClick={onEditAvatar}>
-          <img className="profile__avatar" src={userAvatar}></img>
+          <img className="profile__avatar" src={currentUser.avatar}></img>
         </button>
         <div className="profile__info">
           <div className="profile__container">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button className="profile__edit-button" type="button" onClick={onEditProfile}></button>
           </div>
-          <p className="profile__description">{userDescription}</p>
+          <p className="profile__description">{currentUser.about}</p>
         </div>
         <button className="profile__add-button" type="button" onClick={onAddPlace}><img src={profileAddButton} className="profile__vector" alt="кнопка добавления контента"></img></button>
       </section>
