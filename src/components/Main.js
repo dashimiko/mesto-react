@@ -5,7 +5,7 @@ import Card from './Card';
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
+function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick,onCardLike,onCardDelete}){
 
   const currentUser = useContext(CurrentUserContext);
 
@@ -30,7 +30,7 @@ function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick}){
       <section className="elements">
       {cards.map((card) => {
         return (
-          <Card key={card.id} card={card} onCardClick={onCardClick}/>
+          <Card key={card.id} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
           );
         })}
       </section>

@@ -80,6 +80,10 @@ class Api {
     }).then(res => res.ok ? res.json() : Promise.reject(res.status))
     .catch(console.log)
   }
+
+  changeLikeCardStatus(id, isLiked) {
+    return isLiked ? this.addLike(id) : this.deleteLike(id);
+  }
 }
 
 export const api = new Api({
