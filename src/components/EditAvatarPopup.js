@@ -1,9 +1,9 @@
-import React, {useEffect,useRef,useState} from 'react';
+import React, {useEffect,useRef} from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
 
-  const linkRef = useRef(null);
+  const linkRef = useRef();
 
   useEffect(() => {
     linkRef.current.value = "";
@@ -18,10 +18,10 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
 
   return (
     <PopupWithForm name="change-avatar" title="Обновить аватар" isOpen = {isOpen} onClose = {onClose} onSubmit={handleSubmit}>
-        <label className="popup__profile-info">
-          <input ref={linkRef} type="url" name = "avatar" id = "avatar" className = "popup__input popup__input_avatar" placeholder="Ссылка на картинку" required></input>
-          <span className="avatar-error popup__error" id=""></span>
-        </label>
+      <label className="popup__profile-info">
+        <input ref={linkRef} type="url" name = "avatar" id = "avatar" className = "popup__input popup__input_avatar" placeholder="Ссылка на картинку" required></input>
+        <span className="avatar-error popup__error" id=""></span>
+      </label>
     </PopupWithForm>
   );
 }

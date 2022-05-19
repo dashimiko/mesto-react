@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 import profileAddButton from '../images/small_add_button.svg';
-import {api} from '../utils/Api'
 import Card from './Card';
 
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick,onCardLike,onCardDelete}){
 
@@ -12,10 +11,9 @@ function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick,onCardLik
   return (
 
     <main>
-
       <section className="profile">
         <button className="profile__avatar-container" onClick={onEditAvatar}>
-          <img className="profile__avatar" src={currentUser.avatar}></img>
+          <img className="profile__avatar" src={currentUser.avatar} alt ={currentUser.name}></img>
         </button>
         <div className="profile__info">
           <div className="profile__container">
@@ -34,7 +32,6 @@ function Main({cards,onEditProfile,onAddPlace,onEditAvatar,onCardClick,onCardLik
           );
         })}
       </section>
-
     </main>
   );
 }

@@ -1,10 +1,11 @@
-import React, {useState,useEffect, useRef} from 'react';
+import React, {useState,useEffect} from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 
 import {api} from '../utils/Api'
@@ -66,6 +67,13 @@ function App() {
       closeAllPopups()})
     .catch((err) => console.log(err))}
 
+  function handleAddPlaceSubmit({ name, link }) {
+    api.addImage(name, link)
+    .then(newCard => {
+      setCards([newCard, ...cards]);
+      closeAllPopups()})
+    .catch((err) => console.log(err))}
+
   function handleUpdateAvatar({avatar}) {
     api.editAvatar(avatar)
     .then((res) => {
@@ -97,16 +105,7 @@ function App() {
 
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
-      <PopupWithForm name="new-place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
-        <label className="popup__profile-info">
-          <input id = 'place' name = "place" type="text" className="popup__input popup__input_place_name" placeholder="Название" required></input>
-          <span className="place-error popup__error" id=""></span>
-        </label>
-        <label className="popup__profile-info">
-          <input type="url" name = "link" id = "link" className = "popup__input popup__input_place_link" placeholder="Ссылка на картинку" required></input>
-          <span className="link-error popup__error" id=""></span>
-        </label>
-      </PopupWithForm>
+      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit}/>
 
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
@@ -120,6 +119,7 @@ function App() {
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
 
       </div>
+
     </CurrentUserContext.Provider>
   );
 }
