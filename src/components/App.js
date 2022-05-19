@@ -1,8 +1,10 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useRef} from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 
 import {api} from '../utils/Api'
@@ -23,7 +25,8 @@ function App() {
       .then(([profileData, card]) => {
         setCurrentUser(profileData);
         setCards(card);
-      }).catch((err) => console.log(err))},[]);
+      }).catch((err) => console.log(err))
+    },[]);
 
   function handleEditAvatarClick () {
     setIsEditAvatarPopupOpen(true)
@@ -56,6 +59,20 @@ function App() {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
   })}
 
+  function handleUpdateUser({name,about}) {
+    api.editProfile(name,about)
+    .then((res) => {
+      setCurrentUser(res);
+      closeAllPopups()})
+    .catch((err) => console.log(err))}
+
+  function handleUpdateAvatar({avatar}) {
+    api.editAvatar(avatar)
+    .then((res) => {
+      setCurrentUser(res);
+      closeAllPopups()})
+    .catch((err) => console.log(err))}
+
   function handleCardDelete(card) {
     api.deleteCard(card._id)
     .then(() => {setCards((state) => state.filter((с) => с._id !== card._id))})
@@ -75,18 +92,10 @@ function App() {
       onCardLike = {handleCardLike}
       onCardDelete= {handleCardDelete}
       />
+
       <Footer />
 
-      <PopupWithForm name="edit-profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-        <label className="popup__profile-info">
-          <input type="text" id="username" className="popup__input popup__input_edit_name" name ="name" placeholder="Имя" required></input>
-          <span className="username-error popup__error" id=""></span>
-        </label>
-        <label className="popup__profile-info">
-          <input type="text" id = "description" className = "popup__input popup__input_edit_description" name = "about" placeholder="О себе" required></input>
-          <span className="description-error popup__error" id=""></span>
-        </label>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
       <PopupWithForm name="new-place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <label className="popup__profile-info">
@@ -99,12 +108,7 @@ function App() {
         </label>
       </PopupWithForm>
 
-      <PopupWithForm name="change-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-        <label className="popup__profile-info">
-          <input type="url" name = "avatar" id = "avatar" className = "popup__input popup__input_avatar" placeholder="Ссылка на картинку" required></input>
-          <span className="avatar-error popup__error" id=""></span>
-        </label>
-      </PopupWithForm>
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
       <PopupWithForm name="delete" title="Вы уверены?">
         <label className="popup__profile-info">
