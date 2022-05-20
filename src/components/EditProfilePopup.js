@@ -31,16 +31,16 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser,isOpen]);
 
   return (
     <PopupWithForm name="edit-profile" title="Редактировать профиль" isOpen = {isOpen} onClose = {onClose} onSubmit={handleSubmit}>
         <label className="popup__profile-info">
-          <input onChange={handleNameInput} value={name} type="text" id="username" className="popup__input popup__input_edit_name" name ="name" placeholder="Имя" required></input>
+          <input onChange={handleNameInput} value={name || ''} type="text" id="username" className="popup__input popup__input_edit_name" name ="name" placeholder="Имя" required></input>
           <span className="username-error popup__error" id=""></span>
         </label>
         <label className="popup__profile-info">
-          <input onChange={handleDescriptionInput} value ={description} type="text" id = "description" className = "popup__input popup__input_edit_description" name = "about" placeholder="О себе" required></input>
+          <input onChange={handleDescriptionInput} value={description || ''} type="text" id = "description" className = "popup__input popup__input_edit_description" name = "about" placeholder="О себе" required></input>
           <span className="description-error popup__error" id=""></span>
         </label>
     </PopupWithForm>

@@ -35,11 +35,11 @@ function Card ({card,onCardClick,onCardLike,onCardDelete}) {
   return (
     <article className="card">
       <img onClick={handleClick} className="card__picture" src={card.link} alt={card.name}></img>
-      <button className="card__delete-button" onClick={handleDeleteClick} className={cardDeleteButtonClassName}></button>
+      <button onClick={handleDeleteClick} className={cardDeleteButtonClassName}></button>
       <div className="card__container">
         <h2 className="card__description">{card.name}</h2>
         <div className='card__like-container'>
-          <button className="card__like" type="button" onClick={handleLikeClick} className={cardLikeButtonClassName}></button>
+          <button type="button" onClick={handleLikeClick} className={cardLikeButtonClassName}></button>
           <span className="card__like-count">{card.likes.length}</span>
         </div>
       </div>

@@ -11,14 +11,14 @@ class Api {
   getProfile(){
     return fetch(`${this._baseUrl}/users/me`,{
       headers: this._headers
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`,{
       headers: this._headers
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -30,7 +30,7 @@ class Api {
         name,
         about
       })
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -42,7 +42,7 @@ class Api {
         name,
         link
       })
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -50,7 +50,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${id}`,{
       method: "DELETE",
       headers: this._headers,
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -58,7 +58,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${id}/likes`,{
       method: "DELETE",
       headers: this._headers,
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -66,7 +66,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${id}/likes`,{
       method: "PUT",
       headers: this._headers,
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
@@ -77,12 +77,19 @@ class Api {
       body: JSON.stringify({
         avatar,
       })
-    }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+    }).then(this._checkResponse)
     .catch(console.log)
   }
 
   changeLikeCardStatus(id, isLiked) {
     return isLiked ? this.addLike(id) : this.deleteLike(id);
+  }
+
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json()}
+    else {
+      return Promise.reject(res.status)}
   }
 }
 
